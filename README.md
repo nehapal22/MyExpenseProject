@@ -2,6 +2,27 @@
 
 ## Overview
 This is a personal expense tracker web application built using Django. It allows users to log their expenses, categorize them, and provides automated expense categorization and future expense prediction features.
+
+## Screenshots
+
+### Expense Dashboard
+![Expense Dashboard](assets/Screenshot%202025-04-23%20at%208.23.10%20PM.png)
+
+### Income Tracking
+![Income Tracking](assets/Screenshot%202025-04-23%20at%208.23.18%20PM.png)
+
+### Expense Forecasting
+![Expense Forecasting](assets/Screenshot%202025-04-23%20at%208.23.36%20PM.png)
+
+## Features
+- User authentication and account management
+- Expense tracking and categorization
+- Income recording
+- Expense forecasting using machine learning
+- Custom reporting and data visualization
+- Currency preference settings
+- Responsive design with modern UI
+
 ## Setup
 
 ### Create a Virtual Environment 
@@ -46,3 +67,13 @@ python manage.py runserver
 
 ### Access the Application
 Open your web browser and go to [http://localhost:8000](http://localhost:8000) to access the application.
+
+## Technology Stack
+- Django: Web framework
+- Bootstrap: Frontend framework
+- SQLite: Database
+- Chart.js: Data visualization
+- Machine Learning: Expense categorization and forecasting
+
+## Contributors
+- [Neha Pal](https://github.com/nehapal22)
