@@ -6,13 +6,13 @@ This is a personal expense tracker web application built using Django. It allows
 ## Screenshots
 
 ### Expense Dashboard
-![Expense Dashboard](assets/Screenshot%202025-04-23%20at%208.23.10%20PM.png)
+![Expense Dashboard](assets/screenshot1.png)
 
 ### Income Tracking
-![Income Tracking](assets/Screenshot%202025-04-23%20at%208.23.18%20PM.png)
+![Income Tracking](assets/screenshot2.png)
 
 ### Expense Forecasting
-![Expense Forecasting](assets/Screenshot%202025-04-23%20at%208.23.36%20PM.png)
+![Expense Forecasting](assets/screenshot3.png)
 
 ## Features
 - User authentication and account management
