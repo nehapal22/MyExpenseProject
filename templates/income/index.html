@@ -1,161 +1,350 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+<style>
+    .income-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--color-mint);
+    }
+
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breadcrumb-item a {
+        color: var(--color-teal);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: var(--color-dark-teal);
+    }
+
+    .breadcrumb-item.active {
+        color: var(--color-text-light);
+    }
+
+    .add-button {
+        padding: 0.75rem 1.5rem;
+        background-color: var(--color-teal);
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .add-button:hover {
+        background-color: var(--color-dark-teal);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .search-container {
+        background: white;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-input {
+        border: 1px solid var(--color-pale-green);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2351a39a" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: 0.75rem center;
+        background-size: 1rem;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+        border-color: var(--color-teal);
+        box-shadow: 0 0 0 3px rgba(81, 163, 154, 0.1);
+        outline: none;
+    }
+
+    .income-table {
+        background: white;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .income-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .income-table th {
+        background-color: var(--color-teal);
+        color: white;
+        font-weight: 600;
+        text-align: left;
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+
+    .income-table th a {
+        color: white;
+        margin-left: 0.25rem;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .income-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--color-pale-green);
+        vertical-align: middle;
+    }
+
+    .income-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .income-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+    .income-table tbody tr:hover {
+        background-color: var(--color-pale-green);
+    }
+
+    .edit-button {
+        background-color: var(--color-mint);
+        color: var(--color-dark-teal);
+        border: none;
+        border-radius: 0.375rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .edit-button:hover {
+        background-color: var(--color-teal);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        background: white;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .page-info {
+        color: var(--color-text-light);
+        font-size: 0.875rem;
+    }
+
+    .pagination {
+        margin: 0;
+    }
+
+    .page-item .page-link {
+        color: var(--color-teal);
+        border-color: var(--color-pale-green);
+        margin: 0 0.25rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease;
+    }
+
+    .page-item .page-link:hover {
+        background-color: var(--color-pale-green);
+        border-color: var(--color-mint);
+        color: var(--color-dark-teal);
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--color-teal);
+        border-color: var(--color-teal);
+        color: white;
+    }
+
+    .no-results {
+        background-color: white;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 0.5rem;
+        color: var(--color-text-light);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .amount-cell {
+        font-weight: 600;
+        color: var(--color-dark-teal);
+    }
+
+    .source-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        background-color: var(--color-beige);
+        color: var(--color-dark-teal);
+    }
+
+    .date-cell {
+        color: var(--color-text-light);
+        font-size: 0.875rem;
+    }
+
+    .table-output {
+        display: none;
+    }
+</style>
+{% endblock css %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-10">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="">Income</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        My Income
-                    </li>
-                </ol>
-            </nav>
-        </div>
+<div class="income-container">
+    <div class="page-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="">Income</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    My Income
+                </li>
+            </ol>
+        </nav>
 
-        <div class="col-md-2">
-            <a href="{% url 'add-income'%}" class="btn btn-primary">Add Income</a>
-        </div>
+        <a href="{% url 'add-income'%}" class="add-button">
+            <i class="fas fa-plus"></i> Add Income
+        </a>
     </div>
 
-    <div class="container">
-        {% include 'partials/_messages.html' %}
+    {% include 'partials/_messages.html' %}
 
-        {% if income.count %}
+    {% if income.count %}
+    <div class="search-container">
+        <input type="text" class="search-input" id="searchField" placeholder="Search income...">
+    </div>
 
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
+    <div class="income-table app-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount ({{currency}}) 
+                        <a href="?sort=amount_asc" title="Sort ascending">&#11014;</a> 
+                        <a href="?sort=amount_desc" title="Sort descending">&#11015;</a>
+                    </th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Date 
+                        <a href="?sort=date_asc" title="Sort ascending">&#11014;</a>
+                        <a href="?sort=date_desc" title="Sort descending">&#11015;</a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" id="searchField" placeholder="Search">
-                </div>
-            </div>
+            <tbody>
+                {% for income in page_obj %}
+                <tr>
+                    <td class="amount-cell">{{income.amount}}</td>
+                    <td><span class="source-badge">{{income.source}}</span></td>
+                    <td>{{income.description}}</td>
+                    <td class="date-cell">{{income.date}}</td>
+                    <td>
+                        <a href="{% url 'income-edit' income.id %}" class="edit-button">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="no-results" style="display: none;">No matching income found</p>
+    
+    <div class="table-output">
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount ({{currency}})</th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-body"></tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        <div class="page-info">
+            Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
         </div>
-        <div class="app-table">
-
-            <table class="table table-stripped table-hover">
-                <thead>
-                    <tr>
-                        <th>Amount ({{currency}}) <a href="?sort=amount_asc">&#11014; </a> <a
-                                href="?sort=amount_desc">&#11015;</a></th>
-                        <th>Source</th>
-                        <th>Description</th>
-                        <th>Date <a href="?sort=date_asc">&#11014;</a>
-                            <a href="?sort=date_desc">&#11015;</a>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for income in page_obj%}
-                    <tr>
-                        <td>{{income.amount}}</td>
-                        <td>{{income.source}}</td>
-                        <td>{{income.description}}</td>
-                        <td>{{income.date}}</td>
-
-                        <td>
-                            <a href="{% url 'income-edit' income.id  %}" class="btn btn-primary btn-sm">Edit</a>
-                        </td>
-                    </tr>
-
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <p class="no-results" style="display: none;">No results </p>
-        <div class="table-output">
-
-
-            <table class="table table-stripped table-hover">
-                <thead>
-                    <tr>
-                        <th>Amount ({{currency}})</th>
-                        <th>Source</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody class="table-body">
-
-
-                </tbody>
-            </table>
-        </div>
-
-
-
-
-        <div class="pagination-container">
-            <div class="">
-                Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
-            </div>
-            <!-- <ul class="pagination align-right float-right mr-auto">
-                {% if page_obj.has_previous %}
-                <li {% if page_obj.number is 1 %} class="page-item active" {% endif %}><a class="page-link"
-                        href="?page=1">&laquo; 1</a></li>
-                <li class="page-item"> <a class="page-link"
-                        href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                {% endif %}
-
-                {% if page_obj.has_next %}
-                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{
-                        page_obj.paginator.num_pages}} &raquo;</a></li>
-                {% endif %}
-
-
-            </ul> -->
-
-            <ul class="pagination align-right float-right mr-auto">
-                {% if page_obj.has_previous %}
-                <li {% if page_obj.number is 1 %} class="page-item active" {% endif %}>
-                    <a class="page-link" href="?page=1{% if sort_order %}&sort={{ sort_order }}{% endif %}">&laquo;
-                        1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link"
-                        href="?page={{ page_obj.previous_page_number }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">Previous</a>
-                </li>
-                {% endif %}
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link"
-                        href="?page={{ page_obj.next_page_number }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">Next</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link"
-                        href="?page={{ page_obj.paginator.num_pages }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">
-                        {{total}} &raquo;</a>
-                </li>
-                {% endif %}
-            </ul>
+        
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li {% if page_obj.number is 1 %} class="page-item active" {% else %} class="page-item" {% endif %}>
+                <a class="page-link" href="?page=1{% if sort_order %}&sort={{ sort_order }}{% endif %}">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">
+                    <i class="fas fa-angle-left"></i> Previous
+                </a>
+            </li>
             {% endif %}
-        </div>
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">
+                    Next <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if sort_order %}&sort={{ sort_order }}{% endif %}">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
+    {% else %}
+    <div class="text-center p-5">
+        <img src="{% static 'img/empty.svg' %}" alt="No income" style="max-width: 200px; opacity: 0.5;" onerror="this.src='{% static 'img/empty.png' %}'">
+        <h3 class="mt-4" style="color: var(--color-text-light);">No income found</h3>
+        <p style="color: var(--color-text-light);">Start tracking your income by adding your first entry.</p>
+        <a href="{% url 'add-income'%}" class="add-button mt-3">
+            <i class="fas fa-plus"></i> Add Your First Income
+        </a>
+    </div>
+    {% endif %}
 </div>
 
-
-
-
-
-
 <script src="{% static 'js/searchIncome.js' %}"></script>
-
-
-
-
-
-
 {% endblock content %}
